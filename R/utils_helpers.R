@@ -7,6 +7,6 @@
 #' @noRd
 
 get_choices <- function(){
-  choices <- c("select", "carat", "depth", "table", "price", "x", "y", "z")
+  choices <- c("select", "sales", "quantity", "discount", "profit")
   return(choices)
 }

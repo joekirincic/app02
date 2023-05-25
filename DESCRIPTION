@@ -9,8 +9,11 @@ Authors@R:
 Description: This app demonstrates the use of DuckDB-WASM and Plot.js for interactive plotting in Shiny.
 License: MIT + file LICENSE
 Imports: 
+    arrow,
     config (>= 0.3.1),
+    ggplot2,
     golem (>= 0.4.0),
+    pkgload,
     shiny (>= 1.7.4)
 Encoding: UTF-8
 LazyData: true

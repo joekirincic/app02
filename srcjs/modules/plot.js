@@ -29,4 +29,15 @@ function create_density_plot(element_id, data, x, y){
   ctx.appendChild(plot_el);
 };
 
+const create_barchart = (el, data, x, y) => {
+  let ctx = document.getElementById(el.id);
+  let existing_plots = ctx.querySelectorAll("div");
+  if(existing_plots.length > 0){
+    // Clear any existing plots before drawing.
+    existing_plots.forEach((x) => {
+      x.remove()
+    })
+  };
+};
+
 export { create_density_plot };

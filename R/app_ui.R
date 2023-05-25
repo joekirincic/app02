@@ -9,26 +9,87 @@ app_ui <- function(request) {
     # Leave this function for adding external resources
     golem_add_external_resources(),
     # Your application UI logic
-    fluidPage(
-      h1("app02"),
+    bslib::page_fluid(
+      h1("Operations Dashboard"),
       hr(),
-      actionButton(inputId = "send-arrow-btn", label = "SEND"),
-      hr(),
-      tags$div(
-        actionButton(inputId = "main-filter-btn", label = "FILTER")
+      fluidRow(
+        inputPanel(
+          selectInput(inputId = "company-filter", label = "Company", choices = charlatan::ch_company(n = 50)),
+          selectInput(inputId = "segment-filter", label = "Segment", choices = charlatan::ch_job(n = 50)),
+          dateRangeInput(input = "date-range-filter", label = "Date Range")
+        ),
+        column(4),
+        column(
+          4,
+          actionButton(inputId = "send-arrow-btn", label = "SEND"),
+          actionButton(inputId = "main-filter-btn", label = "Go")
+        ),
+        column(4)
       ),
       hr(),
-      tags$div(
-        tags$div(
-          id = "plot_01"
+      fluidRow(
+        column(
+          6,
+          tags$div(
+            id = "plot_01_container",
+            class = "plot-container",
+            tags$div(
+              id = "plot_01",
+              class = "plot-slot"
+            ),
+            inputPanel(
+              selectInput(inputId = "x-var-select-01", label = "X-Axis", choices = get_choices()),
+              selectInput(inputId = "y-var-select-01", label = "Y-Axis", choices = get_choices()),
+            )
+          )
         ),
-        tags$div(
-          selectInput(inputId = "x-var-select", label = "X-Axis", choices = get_choices()),
-          selectInput(inputId = "y-var-select", label = "Y-Axis", choices = get_choices()),
+        column(
+          6,
+          tags$div(
+            id = "plot_02_container",
+            class = "plot-container",
+            tags$div(
+              id = "plot_02",
+              class = "plot-slot"
+            ),
+            inputPanel(
+              selectInput(inputId = "x-var-select-02", label = "X-Axis", choices = get_choices()),
+              selectInput(inputId = "y-var-select-02", label = "Y-Axis", choices = get_choices()),
+            )
+          )
         )
       ),
-      tags$div(
-        id = "plot_02"
+      fluidRow(
+        column(
+          6,
+          tags$div(
+            id = "plot_03_container",
+            class = "plot-container",
+            tags$div(
+              id = "plot_03",
+              class = "plot-slot"
+            ),
+            inputPanel(
+              selectInput(inputId = "x-var-select-03", label = "X-Axis", choices = get_choices()),
+              selectInput(inputId = "y-var-select-03", label = "Y-Axis", choices = get_choices()),
+            )
+          )
+        ),
+        column(
+          6,
+          tags$div(
+            id = "plot_04_container",
+            class = "plot-container",
+            tags$div(
+              id = "plot_04",
+              class = "plot-slot"
+            ),
+            inputPanel(
+              selectInput(inputId = "x-var-select-04", label = "X-Axis", choices = get_choices()),
+              selectInput(inputId = "y-var-select-04", label = "Y-Axis", choices = get_choices()),
+            )
+          )
+        )
       )
     )
   )
