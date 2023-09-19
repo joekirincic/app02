@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const OptimizeWasmPlugin = require('optimize-wasm-webpack-plugin');
 
 // defaults
 var outputPath = [],
@@ -70,6 +71,9 @@ var options = {
     extensions: ['.tsx', '.ts', '.js', '.wasm'],
   },
   plugins: plugins,
+  optimization: {
+    minimizer: [new OptimizeWasmPlugin()]
+  },
   experiments: {
     futureDefaults: true
   }

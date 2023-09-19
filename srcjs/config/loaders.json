@@ -1,6 +1,6 @@
 [
   {
     "test": ".*\\.wasm$",
-    "type": "asset/inline"
+    "type": "asset/resource"
   }
 ]

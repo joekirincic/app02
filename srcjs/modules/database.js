@@ -1,7 +1,8 @@
 import * as duckdb from '@duckdb/duckdb-wasm';
-import duckdb_wasm from '@duckdb/duckdb-wasm/dist/duckdb-mvp.wasm';
-import duckdb_wasm_next from '@duckdb/duckdb-wasm/dist/duckdb-eh.wasm';
 
+// This is the function used when we're not loading from a CDN.
+// Remember that this generates two giant WASM files that Shiny is
+// responsible for serving each time someone connects.
 async function init_db(){
   const MANUAL_BUNDLES = {
       mvp: {
@@ -23,10 +24,33 @@ async function init_db(){
   return await db;
 };
 
+async function initDBFromCDN(){
+  const JSDELIVR_BUNDLES = duckdb.getJsDelivrBundles();
+  const bundle = await duckdb.selectBundle(JSDELIVR_BUNDLES);
+  const worker_url = URL.createObjectURL(
+    new Blob([`importScripts("${bundle.mainWorker}");`], {type: 'text/javascript'})
+  );
+  // Instantiate the asynchronus version of DuckDB-WASM
+  const worker = new Worker(worker_url);
+  const logger = new duckdb.ConsoleLogger();
+  const db = new duckdb.AsyncDuckDB(logger, worker);
+  await db.instantiate(bundle.mainModule, bundle.pthreadWorker);
+  URL.revokeObjectURL(worker_url);
+  return await db;
+};
+
 async function create_table(con, data, name){
   let data_ = new Uint8Array(data);
   try {
     await con.insertArrowFromIPCStream(data_, {name: name});
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+async function create_table2(con, data, name){
+  try {
+    await con.insertArrowTable(data, {name: name});
   } catch (e) {
     console.log(e);
   }
@@ -41,6 +65,6 @@ async function delete_table(con, name){
   }
 };
 
-export { init_db, create_table };
+export { init_db, initDBFromCDN, create_table, create_table2 };
 
 

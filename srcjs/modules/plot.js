@@ -40,4 +40,29 @@ const create_barchart = (el, data, x, y) => {
   };
 };
 
-export { create_density_plot };
+// update_plot seems like a good candidate for a closure.
+// We want to have a function that remembers `xvar` and `yvar`,
+// and only updates one of them depending on whichever is
+// changed.
+
+async function updatePlot(id){
+  let theElement = document.getElementById(id);
+  let thePlot = theElement.querySelector('.plot-slot');
+  let xvar = null;
+  let yvar = null;
+  async function update(el, con){
+    // Figure out whether the element is an x-var or y-var selector.
+    if(el.id.includes("x-var")){
+      xvar = el.value;
+    }
+    if(el.id.includes("y-var")){
+      yvar = el.value;
+    }
+    // Carry out the rest of the plot update logic.
+    let data = await con.query(`SELECT ${xvar}, ${yvar} FROM payload`);
+    create_density_plot(thePlot.id, data, xvar, yvar);
+  }
+  return update;
+};
+
+export { create_density_plot, updatePlot };

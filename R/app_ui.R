@@ -14,8 +14,8 @@ app_ui <- function(request) {
       hr(),
       fluidRow(
         inputPanel(
-          selectInput(inputId = "company-filter", label = "Company", choices = charlatan::ch_company(n = 50)),
-          selectInput(inputId = "segment-filter", label = "Segment", choices = charlatan::ch_job(n = 50)),
+          selectInput(inputId = "company_filter", label = "Company", choices = letters),
+          selectInput(inputId = "segment_filter", label = "Segment", choices = LETTERS),
           dateRangeInput(input = "date-range-filter", label = "Date Range")
         ),
         column(4),
@@ -55,38 +55,6 @@ app_ui <- function(request) {
             inputPanel(
               selectInput(inputId = "x-var-select-02", label = "X-Axis", choices = get_choices()),
               selectInput(inputId = "y-var-select-02", label = "Y-Axis", choices = get_choices()),
-            )
-          )
-        )
-      ),
-      fluidRow(
-        column(
-          6,
-          tags$div(
-            id = "plot_03_container",
-            class = "plot-container",
-            tags$div(
-              id = "plot_03",
-              class = "plot-slot"
-            ),
-            inputPanel(
-              selectInput(inputId = "x-var-select-03", label = "X-Axis", choices = get_choices()),
-              selectInput(inputId = "y-var-select-03", label = "Y-Axis", choices = get_choices()),
-            )
-          )
-        ),
-        column(
-          6,
-          tags$div(
-            id = "plot_04_container",
-            class = "plot-container",
-            tags$div(
-              id = "plot_04",
-              class = "plot-slot"
-            ),
-            inputPanel(
-              selectInput(inputId = "x-var-select-04", label = "X-Axis", choices = get_choices()),
-              selectInput(inputId = "y-var-select-04", label = "Y-Axis", choices = get_choices()),
             )
           )
         )
